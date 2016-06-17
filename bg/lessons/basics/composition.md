@@ -1,20 +1,20 @@
 ---
 layout: page
-title: Composition
+title: Композиция
 category: basics
 order: 8
 lang: bg
 ---
 
-We know from experience its unruly to have all of our functions in the same file and scope.  In this lesson we're going to cover how to group functions and define a specialized map known as a struct in order to organize our code more efficiently.
+От опит знаем колко неудобно е да държим всички наши функции в един и същи файл и една област на видимост.  В този урок ще разгледаме как да групираме функции и да дефинираме специален асоциативен масив известен като `struct`, за да организираме кода си по-оптимално.
 
 {% include toc.html %}
 
-## Modules
+## Модули
 
-Modules are the best way to organize functions into a namespace.  In addition to grouping functions, they allow us to define named and private functions which we covered in the previous lesson.
+Модулите са най-добрият начин да организираме функциите си в области на видимост.  Освен да групираме функции, те ни позволяват да дефинираме именовани и частни функции които покрихме в предишен урок.
 
-Let's look at a basic example:
+Нека разгледаме един прост пример:
 
 ``` elixir
 defmodule Example do
@@ -27,7 +27,7 @@ iex> Example.greeting "Sean"
 "Hello Sean."
 ```
 
-It is possible to nest modules in Elixir, allowing you to further namespace your functionality:
+Възможно е да вграждаме модули в Elixir, което ни позволява да използваме допълнителни наименовани пространства:
 
 ```elixir
 defmodule Example.Greetings do
@@ -44,9 +44,9 @@ iex> Example.Greetings.morning "Sean"
 "Good morning Sean."
 ```
 
-### Module attributes
+### Атрибути на модули
 
-Module attributes are most commonly used as constants in Elixir.  Let's take a look at a simple example:
+Атрибутите на модули най-често се използват като константи в.  Нека разгледаме един прост пример:
 
 ```elixir
 defmodule Example do
@@ -58,17 +58,17 @@ defmodule Example do
 end
 ```
 
-It is important to note there are reserved attributes in Elixir.  The three most common are:
+Важно е да се отбележи, че има запазени атрибути в Elixir.  Трите най-често срещани са:
 
-+ `moduledoc` — Documents the current module.
-+ `doc` — Documentation for functions and macros.
-+ `behaviour` — Use an OTP or user-defined behaviour.
++ `moduledoc` — Документира текущия модул.
++ `doc` — Документация за функции и макроси.
++ `behaviour` — Използва OTP определено от потребителя поведение.
 
-## Structs
+## Структури
 
-Structs are special maps with a defined set of keys and default values.  It must be defined within a module, which it takes its name from.  It is common for a struct to be the only thing defined within a module.
+Структурите са специални асоциативни масиви с дефиниран набор от ключове и стойности по подразбиране.  Трябва да бъде дефинира в модул, от който структурата взима името си.  Обичайно е за структура да е единственото нещо дефинирано в модул.
 
-To define a struct we use `defstruct` along with a keyword list of fields and default values:
+За да дефинираме структура използваме `defstruct` заедно със списък от полета с ключове и стойности по подразбиране:
 
 ```elixir
 defmodule Example.User do
@@ -76,7 +76,7 @@ defmodule Example.User do
 end
 ```
 
-Let's create some structs:
+Нека създадем няколко структури:
 
 ```elixir
 iex> %Example.User{}
@@ -89,7 +89,7 @@ iex> %Example.User{name: "Steve", roles: [:admin, :owner]}
 %Example.User{name: "Steve", roles: [:admin, :owner]}
 ```
 
-We can update our struct just like we would a map:
+Можем да обновяваме структурите си както бихме обновили и асоциативен масив:
 
 ```elixir
 iex> steve = %Example.User{name: "Steve", roles: [:admin, :owner]}
@@ -98,20 +98,20 @@ iex> sean = %{steve | name: "Sean"}
 %Example.User{name: "Sean", roles: [:admin, :owner]}
 ```
 
-Most importantly, you can match structs against maps:
+Най-важното е, че можем да съпоставяме структури спрямо асоциативни масиви:
 
 ```elixir
 iex> %{name: "Sean"} = sean
 %Example.User{name: "Sean", roles: [:admin, :owner]}
 ```
 
-## Composition
+## Композиция
 
-Now that we know how to create modules and structs let's learn how to include existing functionality in them through composition.  Elixir provides us with a variety of different ways to interact with other modules, let's look at what we have available to us.
+Сега след като знаем как да създаваме модули и структури, нека се научим как да внедрим съществуващата функционалност в тях посредством композиция.  Elixir ни предлага множество различни начини за взаимодействие с други модули, нека разгледаме какво имаме налично.
 
 ### `alias`
 
-Allows us to alias module names, used quite frequently in Elixir code:
+Позволява ни да използваме съкращение за имена на модули, използва се много често в Elixir код:
 
 ```elixir
 defmodule Sayings.Greetings do
@@ -124,14 +124,14 @@ defmodule Example do
   def greeting(name), do: Greetings.basic(name)
 end
 
-# Without alias
+# Без alias
 
 defmodule Example do
   def greeting(name), do: Saying.Greetings.basic(name)
 end
 ```
 
-If there's a conflict with two aliases or you just wish to alias to a different name entirely, we can use the `:as` option:
+Ако има конфликт с две съкращения или просто желаете да съкратите като съвсем различно име, моем да използваме опцията `:as` опция:
 
 ```elixir
 defmodule Example do
@@ -141,7 +141,7 @@ defmodule Example do
 end
 ```
 
-It's possible to alias multiple modules at once:
+Възможно е да съкратим няколко модула на веднъж:
 
 ```elixir
 defmodule Example do
@@ -151,7 +151,7 @@ end
 
 ### `import`
 
-If we want to import functions and macros rather than aliasing the module we can use `import/`:
+Ако искаме да внесем функции и макроси вместо да съкращаваме може да използваме `import/`:
 
 ```elixir
 iex> last([1, 2, 3])
@@ -162,11 +162,11 @@ iex> last([1, 2, 3])
 3
 ```
 
-#### Filtering
+#### Филтриране
 
-By default all functions and macros are imported but we can filter them using the `:only` and `:except` options.
+По подразбиране всички функции и макроси са внесени в областта на видимост, но може да ги филтрираме чрез опиите `:only` и `:except`.
 
-To import specific functions and macros, we must provide the name/arity pairs to `:only` and `:except`.  Let's start by importing only the `last/1` function:
+За да внесем специфични функции и макроси, трябва да предоставим двойките име/брой на `:only` и `:except`.  Нека започнем като внесем само функцията `last/1`:
 
 ```elixir
 iex> import List, only: [last: 1]
@@ -176,7 +176,7 @@ iex> last([1, 2, 3])
 3
 ```
 
-If we import everything except `last/1` and try the same functions as before:
+Ако внесем всичко освен `last/1` и пробваме същите функции като преди:
 
 ```elixir
 iex> import List, except: [last: 1]
@@ -187,7 +187,7 @@ iex> last([1, 2, 3])
 ** (CompileError) iex:3: undefined function last/1
 ```
 
-In addition to the name/arty pairs there are two special atoms, `:functions` and `:macros`, which import only functions and macros respectively:
+В допълнение към двойките име/брой има два специални атома, `:functions` и `:macros`, които внасят само функции и макроси респективно:
 
 ```elixir
 import List, only: :functions
@@ -196,7 +196,7 @@ import List, only: :macros
 
 ### `require`
 
-Although used less frequently `require/2` is nonetheless important.  Requiring a module ensures that it is compiled and loaded.  This is most useful when we need to access a module's macros:
+Въпреки по рядко използвана, `require/2` е важна въпреки това.  Извиквайки модул чрез нея подсигурява, че той е компилиран и зареден.  Това е най-полезно, когато се нуждаем от достъп до макросите на модула:
 
 ```elixir
 defmodule Example do
@@ -206,11 +206,11 @@ defmodule Example do
 end
 ```
 
-If we attempt to call a macro that is not yet loaded Elixir will raise an error.
+Ако се опитаме да извикаме макро, което още не е заредено, Elixir ще ни върне грешка.
 
 ### `use`
 
-The use macro invokes a special macro, called __using__/1, from the specified module. Here’s an example:
+Макрото `use` извиква специално макро, наречено __using__/1, от посочения модул. Ето един пример:
 
 ```elixir
 # lib/use_import_require/use_me.ex
@@ -225,19 +225,19 @@ defmodule UseImportRequire.UseMe do
 end
 ```
 
-and we add this line to UseImportRequire:
+и добавяме този ред към UseImportRequire:
 
 ```elixir
 use UseImportRequire.UseMe
 ```
 
-Using UseImportRequire.UseMe defines a use_test/0 function through invocation of the __using__/1 macro.
+Използвайки UseImportRequire.UseMe чрез `use` дефинира функция use_test/0 чрез извикване на макрото __using__/1.
 
-This is all that use does. However, it is common for the __using__ macro to in turn call alias, require, or import. This in turn will create aliases or imports in the using module. This allows the module being used to define a policy for how its functions and macros should be referenced. This can be quite flexible in that __using__/1 may set up references to other modules, especially submodules.
+Това е всичко, което `use` прави. Обаче е честа практика за макрото __using__ да извика на свой ред alias, require, или import. Това от своя страна ще създаде съкращения или внасяния в използвания модул. Това позволява на модула, който използваме, да дефинира правила как неговите функции и макроси да бъдат реферирани. Това може да е много гъвкаво, понеже __using__/1 може да изгражда референции към други модули, особено под-модули.
 
-The Phoenix framework makes use of use and __using__/1 to cut down on the need for repetitive alias and import calls in user defined modules.
+Платформата Phoenix използва `use` и __using__/1, за да намали нуждада от повторяеми съкращения и внасяния в дефинирани от потребителя модули.
 
-Here’s an nice and short example from the Ecto.Migration module:
+Ето един хубав и кратък пример от модула Ecto.Migration:
 
 ```elixir
 defmacro __using__(_) do
@@ -249,6 +249,6 @@ defmacro __using__(_) do
 end
 ```
 
-The Ecto.Migration.__using__/1 macro includes an import call so that if use Ecto.Migration you also import Ecto.migration. It also sets up a module property which I assume control Ecto’s behavior.
+Макрото Ecto.Migration.__using__/1 включва извикване към `import`, така че ако изпозлваме `use` Ecto.Migration също така внасяме `import` Ecto.migration. Също така изгражда свойство на модула което предположимо контролира поведението на  Ecto.
 
-To recap: the use macro just invokes the __using__/1 macro of the specified module. To really understand what that does you need to read the __using__/1 macro.
+Да обобщим: макрото `use` само извиква макрото __using__/1 на съответния модул. За да разберете наистина какво прави това, трябва да прочетете за макрото __using__/1.
